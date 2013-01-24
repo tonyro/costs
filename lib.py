@@ -1,3 +1,5 @@
+import pymysql
+
 def read_file(file_path):
     '''(str) -> list
     
@@ -69,4 +71,16 @@ def log_to_file(file_path, value):
 
     s = 'Total: ' + str(value)
     file.write(s)
+
+def get_db_connection(db_name, db_user, db_pwd):
+    '''
+    (str, str, str) -> connection
+    
+    Function retrives DB_NAME, DB_USER, DB_PWD, opens db connection using PYMYSQL lib and returns the connection.
+    
+    '''
+    
+    connection = pymysql.connect(host="localhost", port=3306, user=db_user, passwd=db_pwd, db=db_name)
+    
+    return connection
 

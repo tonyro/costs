@@ -13,3 +13,8 @@ Product category (CAT),Product name (NME),cost (COST)
 Things to do:
 
 1. Implement defining all parameters in config file and reading this config at the start of prog.
+2. Need to completely redesign the model as db came to the scene.
+    2.1 As quick decision, 3 layer model can be used:
+        - input
+        - transformation
+        - loading to db
