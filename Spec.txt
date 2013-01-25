@@ -18,3 +18,10 @@ Things to do:
         - input
         - transformation
         - loading to db
+        
+
+Flow to pick files to process:
+1. Get list of file names in the folder.
+2. Get list of file names in db (files_arrivals_control).
+3. Get the difference of these two lists and make a new listfrom that.
+4. Process all files in list of difference one by one.

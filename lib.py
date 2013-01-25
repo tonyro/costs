@@ -1,20 +1,26 @@
-import pymysql
+import MySQLdb
 
-def read_file(file_path):
-    '''(str) -> list
+DB_QUERY_INSERT_NEW_FILE = "insert into costs.files_arrivals_control
+                            (file_name, day, arrival_time, processed_time, processed_flag)"
+
+def read_file(file_path, db_conn):
+    '''(str, connection) -> list
     
     Return parsed data from file as a list of trimerred strings. One element
-    of the list is one line from the file without \n char.
+    of the list is one line from the file without \n char. Also insert info
+    about incoming file to DB (files_arrivals_control table)
     '''
     input_list = []
+    files_list = []
+    
+    
 
     # open file for reading
     file = open(file_path, 'r')
 
     # loop for deleting \n from the end of each line and adding the line to list
     for line in file:
-        input_list.append(line.rstrip())
-    
+        input_list.append(line.rstrip())    
     
     file.close()
 
