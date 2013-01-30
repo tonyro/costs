@@ -18,6 +18,8 @@ Things to do:
         - input
         - transformation
         - loading to db
+3. Module to load unprocessed filenames into DB is currently totally hardcoded. So it's vital to
+    refactor it for using global config file to get parameters.
         
 
 Flow to pick files to process:
