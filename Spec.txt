@@ -1,6 +1,7 @@
 Current behaviour:
-
-All data is stored in txt file. Prog does not use any DB for storing data. Prog uses the file to read the data every time it runs. Prog reads all the data from the file, calculates average sum for costs for day and put it as the last line in the file. After that creates (if there is no such file for the moment) file for average month's costs or append existing one in a certain way (TBD)
+Prog is devided into 2 modules:
+ - 1st one simply loads file names into DB (arrivals table) that are in folder but not in DB;
+ - 2nd one (planned to) read DB (arrivals table) for unprocessed files (PROCESSED_FLAG = 'N') and load data from such files to DB. After completion it sets PROCESSED_FLAG to 'Y';
 
 Format of file:
 
