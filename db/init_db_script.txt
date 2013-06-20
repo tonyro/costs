@@ -1,0 +1,20 @@
+Comment: MySQL should be installed and server 'localhost' should be already created.
+
+Command to connect to 'localhost' from terminal:
+mysql -h "localhost" -u root -p"root" "costs"
+- where "costs" is name of database; -p"root" MUST be written without space.
+
+SQLs to set up DB:
+CREATE DATABASE costs;
+
+Create tables:
+CREATE TABLE files_arrivals_control(
+       file_id INT NOT NULL AUTO_INCREMENT,
+       purchase_date INT(8) NOT NULL,
+       file_name VARCHAR(100) NOT NULL,
+       actual_arrival_time DATETIME,
+       processed_time DATETIME,
+       processed_flag VARCHAR(1) NOT NULL DEFAULT 'N',
+       PRIMARY KEY (file_id)
+       );
+
