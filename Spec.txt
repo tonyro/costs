@@ -15,17 +15,12 @@ Product category (CAT),Product name (NME),cost (COST)
 Things to do:
 
 1. Implement defining all parameters in config file and reading this config at the start of prog.
-2. Need to completely redesign the model as db came to the scene.
-    2.1 As quick decision, 3 layer model can be used:
-        - input
-        - transformation
-        - loading to db
-3. Module to load unprocessed filenames into DB is currently totally hardcoded. So it's vital to
-    refactor it for using global config file to get parameters.
+2. Module to load unprocessed filenames into DB is currently totally hardcoded. So it's vital to refactor it for using global config file to get parameters.
+3. (Long term plan) Create server part to manage files and DB and client parts that will connect to server with only purpose to create reports. So it will be like servlets for getting and processing files and client apps to generate reports.
         
 
 Flow to pick files to process:
 1. Get list of file names in the folder.
 2. Get list of file names in db (files_arrivals_control).
-3. Get the difference of these two lists and make a new listfrom that.
+3. Get the difference of these two lists and make a new list from that.
 4. Process all files in list of difference one by one.
