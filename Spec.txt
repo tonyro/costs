@@ -1,7 +1,8 @@
 Current behaviour:
-Prog is devided into 2 modules:
+Prog is devided into 3 modules:
  - 1st one simply loads file names into DB (arrivals table) that are in folder but not in DB;
  - 2nd one (planned to) read DB (arrivals table) for unprocessed files (PROCESSED_FLAG = 'N') and load data from such files to DB. After completion it sets PROCESSED_FLAG to 'Y';
+ - 3rd one (planned to) use DB to generate several reports for costs.
 
 Format of file:
 
