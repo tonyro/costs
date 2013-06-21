@@ -12,7 +12,10 @@ import MySQLdb
 import os
 from time import gmtime, strftime, localtime
 
-file_path = '/home/nurton/Stat/Costs/'
+home_dir = os.getenv("HOME")
+print "home_dir is:", home_dir
+file_path = home_dir + '/Stat/Costs/'
+print file_path
 #file_path = '/home/tonyr/Work/Costs/Data/costs_20121207.csv'
 DB_QUERY_GET_LIST_OF_FILES = "select file_name from costs.files_arrivals_control;"
 db_name = "costs"
