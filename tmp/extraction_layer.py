@@ -37,7 +37,7 @@ files_to_process = [x for x in folder_list_of_files if x not in db_list_of_files
 print "Files to process are:", files_to_process
 
 for nme in files_to_process:
-    rows_affected = cur.execute("insert into costs.files_arrivals_control (file_name, day, arrival_time, processed_time, processed_flag) values ('%s', '20121006', null, null, 'N'); commit;" % (nme))
+    rows_affected = cur.execute("insert into costs.files_arrivals_control (file_name, day, arrival_time, processed_time, processed_flag) values ('%s', '20121006', sysdate(), null, 'N'); commit;" % (nme))
     print "Rows when insert", rows_affected
     if rows_affected == 0:
         print "Record for file", nme, "was not inserted to FILES_ARRIVALS_CONTROL."

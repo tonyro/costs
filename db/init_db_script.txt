@@ -17,4 +17,15 @@ CREATE TABLE files_arrivals_control(
        processed_flag VARCHAR(1) NOT NULL DEFAULT 'N',
        PRIMARY KEY (file_id)
        );
+       
+CREATE TABLE purchase_details(
+       prod_id INT NOT NULL AUTO_INCREMENT,
+       purchase_date INT(8) NOT NULL,
+       file_name VARCHAR(100) NOT NULL,
+       prod_type VARCHAR(100) NOT NULL,
+       prod_name VARCHAR(100) NOT NULL,
+       cost FLOAT,
+       processed_time DATETIME,
+       PRIMARY KEY (prod_id)
+       );
 

@@ -10,12 +10,11 @@
 
 import MySQLdb
 import os
+import lib
 from time import gmtime, strftime, localtime
 
 home_dir = os.getenv("HOME")
-print "home_dir is:", home_dir
 file_path = home_dir + '/Stat/Costs/'
-print file_path
 #file_path = '/home/tonyr/Work/Costs/Data/costs_20121207.csv'
 DB_QUERY_GET_LIST_OF_FILES = "select file_name from costs.files_arrivals_control;"
 db_name = "costs"
@@ -53,11 +52,15 @@ print "Files to process are:", files_to_process
 # Get local system time
 local_sysdate = strftime("%Y-%m-%d %H:%M:%S", localtime())
 
+
 for nme in files_to_process:
-    rows_affected = cur.execute("insert into costs.files_arrivals_control (purchase_date, file_name, actual_arrival_time,  processed_time, processed_flag) values (20121207, '%s', SYSDATE(), null, 'N');" % (nme))
+    # Get PURCHASE_DATE from file name
+    purchase_date = lib.get_purchase_date(nme)
+    
+    rows_affected = cur.execute("insert into costs.files_arrivals_control (purchase_date, file_name, actual_arrival_time,  processed_time, processed_flag) values ('%s', '%s', SYSDATE(), null, 'N');" % (purchase_date, nme))
     if rows_affected == 0:
         print "Record for file", nme, "was not inserted to FILES_ARRIVALS_CONTROL."
-rows_affected = cur.execute("commit;")
+cur.execute("commit;")
 
 
 db_conn.close()
