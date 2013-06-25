@@ -1,28 +1,30 @@
 import MySQLdb
 
-DB_QUERY_INSERT_NEW_FILE = "insert into costs.files_arrivals_control
-                            (file_name, day, arrival_time, processed_time, processed_flag)"
+DB_QUERY_INSERT_NEW_FILE = "insert into costs.files_arrivals_control (purchase_date, file_name, actual_arrival_time, processed_time, processed_flag)"
 
-def read_file(file_path, db_conn):
-    '''(str, connection) -> list
+def read_file(file_path):
+    '''(str) -> list of list
     
-    Return parsed data from file as a list of trimerred strings. One element
-    of the list is one line from the file without \n char. Also insert info
-    about incoming file to DB (files_arrivals_control table)
+    Return parsed data from file as a list of list of trimerred strings. One element
+    of the list is one line from the file without \n char and splitted by ','.
     '''
     input_list = []
     files_list = []
-    
-    
+    category = []
+    product_name = []
+    cost = []
 
     # open file for reading
     file = open(file_path, 'r')
 
     # loop for deleting \n from the end of each line and adding the line to list
     for line in file:
-        input_list.append(line.rstrip())    
+        input_list.append(unicode(line.strip(), 'utf-8').split(','))
     
     file.close()
+    
+#    for line in input_list:
+        
 
     return input_list
 
@@ -86,7 +88,57 @@ def get_db_connection(db_name, db_user, db_pwd):
     
     '''
     
-    connection = pymysql.connect(host="localhost", port=3306, user=db_user, passwd=db_pwd, db=db_name)
+    connection = MySQLdb.connect(host="localhost", port=3306, user=db_user, passwd=db_pwd, db=db_name, charset='utf8')
     
     return connection
+
+def load_file_data_to_db(cursor, file_data, file_name):
+    '''
+    (db_connection, str, str) -> None
+    
+    Function retrievs data from file as list of list and insert record to db with this data. Also it updates FILES_ARRIVALS_CONTROL table with PROCESSED_FLAG = 'Y' for this file.
+    
+    '''
+    #cursor = db_conn.cursor()
+    rows_affected = cursor.execute("SELECT PURCHASE_DATE FROM costs.files_arrivals_control WHERE FILE_NAME = '" + file_name + "';")
+    if rows_affected == 0:
+        print 'There is no such FILE_NAME [', file_name, '] in FILES_ARRIVALS_CONTROL.'
+    else:
+        db_result = cursor.fetchall() # returns 2-dim array
+        purchase_date = str(db_result[0][0]).strip()
+    
+    for data_row in file_data:
+        DB_INSERT_QUERY = u"insert into costs.purchase_details (purchase_date, file_name, prod_type, prod_name, cost, processed_time) values(" + purchase_date + ", '" + file_name + "', '" + data_row[0].strip() + "', '" + data_row[1].strip() + "', " + data_row[2].strip() + ", sysdate());"
+        
+        print "Insert query is:", DB_INSERT_QUERY
+        
+        rows_affected = cursor.execute(DB_INSERT_QUERY)
+        
+        if rows_affected == 0:
+            print "Row from file [", file_name, "] was not inserted to DB"
+        
+        cursor.execute("commit;")
+
+def get_purchase_date(file_name):
+    '''
+    (str) -> str
+    
+    Cut PURCHASE_DATE from given FILE_NAME (file name format: costs_<PURCHASE_DATE>.csv)
+    
+    '''
+    
+    return file_name[6:-4]
+
+
+
+
+
+
+
+
+
+
+
+
+
 
